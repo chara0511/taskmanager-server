@@ -1,3 +1,3 @@
 exports.createUser = (req, res) => {
-  console.log("from createUSer");
+  console.log(req.body);
 };
