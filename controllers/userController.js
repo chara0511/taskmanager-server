@@ -1,4 +1,5 @@
 const User = require("../models/User");
+const bcryptjs = require("bcryptjs");
 
 exports.createUser = async (req, res) => {
   // destructuring in email & password
@@ -11,8 +12,13 @@ exports.createUser = async (req, res) => {
     if (user) {
       return res.status(400).json({ msg: "Existing user mail" });
     }
+
     // create a new user
     user = new User(req.body);
+
+    // hash password
+    const salt = await bcryptjs.genSalt(10);
+    user.password = await bcryptjs.hash(password, salt);
 
     // save a user
     await user.save();
