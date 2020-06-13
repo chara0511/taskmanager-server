@@ -20,7 +20,7 @@ const UsersSchema = mongoose.Schema({
     trim: true,
   },
 
-  date_recorded: {
+  date: {
     type: Date,
     default: Date.now(),
   },
