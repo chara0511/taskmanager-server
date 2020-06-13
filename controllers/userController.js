@@ -47,7 +47,7 @@ exports.createUser = async (req, res) => {
       (error, token) => {
         if (error) throw error;
 
-        // message
+        // confirm message
         res.json({ token: token });
       }
     );

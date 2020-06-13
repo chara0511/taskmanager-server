@@ -10,4 +10,48 @@ exports.authUser = async (req, res) => {
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
   }
+
+  // extract to email & password
+  const { email, password } = req.body;
+
+  try {
+    // check that user is registered
+    let user = await User.findOne({ email });
+
+    // validate user
+    if (!user) {
+      return res.status(400).json({ msg: "User does not exist" });
+    }
+
+    // check password is valid
+    const validPassword = await bcryptjs.compare(password, user.password);
+
+    // validate password
+    if (!validPassword) {
+      return res.status(400).json({ msg: "Invalid password" });
+    }
+
+    // if all is valid
+    // create JWT
+    const payload = {
+      user: { id: user.id },
+    };
+
+    // sign JWT
+    jwt.sign(
+      payload,
+      process.env.SECRET,
+      {
+        expiresIn: 3600,
+      },
+      (error, token) => {
+        if (error) throw error;
+
+        // confirm message
+        res.json({ token: token });
+      }
+    );
+  } catch (error) {
+    console.log(error);
+  }
 };
