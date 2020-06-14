@@ -5,6 +5,10 @@ exports.createProject = async (req, res) => {
     // create a new project
     const project = new Project(req.body);
 
+    // save owner via JWT
+    project.owner = req.user.id;
+
+    // save project
     project.save();
 
     res.json(project);
