@@ -25,3 +25,16 @@ exports.createProject = async (req, res) => {
     res.status(500).send("Error detected");
   }
 };
+
+// Get all projects from current user
+exports.getProjects = async (req, res) => {
+  try {
+    const projects = await Project.find({ owner: req.user.id }).sort({
+      owner: -1,
+    });
+    res.json({ projects });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Error detected");
+  }
+};
