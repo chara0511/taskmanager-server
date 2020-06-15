@@ -38,3 +38,20 @@ exports.getProjects = async (req, res) => {
     res.status(500).send("Error detected");
   }
 };
+
+// Update a project
+exports.updateProject = async (req, res) => {
+  // Check validation errors
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+  // extract project information
+  const { name } = req.body;
+  const newProject = {};
+  try {
+  } catch (error) {
+    console.log(error);
+  }
+};
