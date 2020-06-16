@@ -39,7 +39,7 @@ exports.getProjects = async (req, res) => {
   }
 };
 
-// Update a project
+// Update a project by id
 exports.updateProject = async (req, res) => {
   // check validation errors
   const errors = validationResult(req);
@@ -81,5 +81,30 @@ exports.updateProject = async (req, res) => {
   } catch (error) {
     console.log(error);
     res.status(500).send("Server error");
+  }
+};
+
+// Delete a project by id
+exports.deleteProject = async (req, res) => {
+  try {
+    // check id
+    let project = await Project.findById(req.params.id);
+
+    // check if project exists
+    if (!project) {
+      return res.status(404).json({ msg: "Project not found" });
+    }
+
+    // check project owner
+    if (project.owner.toString() !== req.user.id) {
+      return res.status(401).json({ msg: "Not authorized" });
+    }
+
+    // delete
+    await Project.findOneAndRemove({ _id: req.params.id });
+    res.json({ msg: "Project removed" });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Error detected on server");
   }
 };
