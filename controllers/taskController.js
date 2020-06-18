@@ -12,4 +12,28 @@ exports.createTask = async (req, res) => {
       errors: errors.array(),
     });
   }
+
+  try {
+    // Check if project exists
+    const { project } = req.body;
+
+    const projectExists = await Project.findById(project);
+
+    if (!projectExists) {
+      return res.status(404).json({ msg: "Project not found" });
+    }
+
+    // Check if the project belongs to authenticated user
+    if (projectExists.owner.toString() !== req.user.id) {
+      return res.status(401).json({ msg: "Not authorized" });
+    }
+
+    // Create task
+    const task = new Task(req.body);
+    await task.save();
+    res.json({ task });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Error");
+  }
 };

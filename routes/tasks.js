@@ -8,7 +8,10 @@ const { check } = require("express-validator");
 router.post(
   "/",
   auth,
-  [check("name", "Name is required").not().isEmpty()],
+  [
+    check("name", "Name is required").not().isEmpty(),
+    check("project", "Project is required").not().isEmpty(),
+  ],
   taskController.createTask
 );
 
