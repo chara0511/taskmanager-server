@@ -30,8 +30,37 @@ exports.createTask = async (req, res) => {
 
     // Create task
     const task = new Task(req.body);
+
     await task.save();
+
     res.json({ task });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Error");
+  }
+};
+
+// Get task from a project
+exports.getTasks = async (req, res) => {
+  try {
+    // Check if project exists
+    const { project } = req.body;
+
+    const projectExists = await Project.findById(project);
+
+    if (!projectExists) {
+      return res.status(404).json({ msg: "Project not found" });
+    }
+
+    // Check if the project belongs to auth user
+    if (projectExists.owner.toString() !== req.user.id) {
+      return res.status(401).json({ msg: "Not authorized" });
+    }
+
+    // Get tasks
+    const tasks = await Task.find({ project });
+
+    res.json({ tasks });
   } catch (error) {
     console.log(error);
     res.status(500).send("Error");
