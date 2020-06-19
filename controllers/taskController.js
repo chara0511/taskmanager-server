@@ -36,6 +36,7 @@ exports.createTask = async (req, res) => {
     res.json({ task });
   } catch (error) {
     console.log(error);
+
     res.status(500).send("Error");
   }
 };
@@ -63,6 +64,7 @@ exports.getTasks = async (req, res) => {
     res.json({ tasks });
   } catch (error) {
     console.log(error);
+
     res.status(500).send("Error");
   }
 };
@@ -103,6 +105,39 @@ exports.updateTask = async (req, res) => {
     res.json({ taskExists });
   } catch (error) {
     console.log(error);
+
+    res.status(500).send("Error");
+  }
+};
+
+// Delete a task
+exports.deleteTask = async (req, res) => {
+  try {
+    // check if project exists
+    const { project } = req.body;
+
+    // check if task exists
+    let taskExists = await Task.findById(req.params.id);
+
+    if (!taskExists) {
+      return res.status(404).json({ msg: "Task not found" });
+    }
+
+    // find project
+    const projectExists = await Project.findById(project);
+
+    // Check if the project belongs to auth user
+    if (projectExists.owner.toString() !== req.user.id) {
+      return res.status(401).json({ msg: "Not authorized" });
+    }
+
+    // Delete a task
+    await Task.findOneAndRemove({ _id: req.params.id });
+
+    res.json({ msg: "Task removed" });
+  } catch (error) {
+    console.log(error);
+
     res.status(500).send("Error");
   }
 };
