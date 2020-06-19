@@ -18,4 +18,7 @@ router.post(
 // Get tasks from a project
 router.get("/", auth, taskController.getTasks);
 
+// Update task
+router.put("/:id", auth, taskController.updateTask);
+
 module.exports = router;
