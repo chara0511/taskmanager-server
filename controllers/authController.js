@@ -3,6 +3,7 @@ const bcryptjs = require("bcryptjs");
 const { validationResult } = require("express-validator");
 const jwt = require("jsonwebtoken");
 
+// Post auntenticate user
 exports.authUser = async (req, res) => {
   // Check validation errors
   const errors = validationResult(req);
@@ -53,5 +54,17 @@ exports.authUser = async (req, res) => {
     );
   } catch (error) {
     console.log(error);
+  }
+};
+
+// Get authenticated user
+exports.authenticatedUser = async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id);
+
+    res.json({ user });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ msg: "Error detected" });
   }
 };
