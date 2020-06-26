@@ -114,7 +114,7 @@ exports.updateTask = async (req, res) => {
 exports.deleteTask = async (req, res) => {
   try {
     // check if project exists
-    const { project } = req.body;
+    const { project } = req.query;
 
     // check if task exists
     let taskExists = await Task.findById(req.params.id);
