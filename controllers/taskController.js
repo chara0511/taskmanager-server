@@ -35,7 +35,7 @@ exports.createTask = async (req, res) => {
 
     res.json({ task });
   } catch (error) {
-    console.log(error);
+    //console.log(error);
 
     res.status(500).send("Error");
   }
@@ -63,7 +63,7 @@ exports.getTasks = async (req, res) => {
 
     res.json({ tasks });
   } catch (error) {
-    console.log(error);
+    //console.log(error);
 
     res.status(500).send("Error");
   }
@@ -104,7 +104,7 @@ exports.updateTask = async (req, res) => {
 
     res.json({ taskExists });
   } catch (error) {
-    console.log(error);
+    //console.log(error);
 
     res.status(500).send("Error");
   }
@@ -136,7 +136,7 @@ exports.deleteTask = async (req, res) => {
 
     res.json({ msg: "Task removed" });
   } catch (error) {
-    console.log(error);
+    //console.log(error);
 
     res.status(500).send("Error");
   }

@@ -34,7 +34,7 @@ exports.getProjects = async (req, res) => {
     });
     res.json({ projects });
   } catch (error) {
-    console.log(error);
+    //console.log(error);
     res.status(500).send("Error detected");
   }
 };
@@ -79,7 +79,7 @@ exports.updateProject = async (req, res) => {
 
     res.json({ project });
   } catch (error) {
-    console.log(error);
+    //console.log(error);
     res.status(500).send("Server error");
   }
 };
@@ -104,7 +104,7 @@ exports.deleteProject = async (req, res) => {
     await Project.findOneAndRemove({ _id: req.params.id });
     res.json({ msg: "Project removed" });
   } catch (error) {
-    console.log(error);
+    //console.log(error);
     res.status(500).send("Error detected on server");
   }
 };

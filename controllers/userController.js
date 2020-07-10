@@ -52,7 +52,7 @@ exports.createUser = async (req, res) => {
       }
     );
   } catch (error) {
-    console.log(error);
+    //console.log(error);
 
     res.status(400).send("something went wrong");
   }
